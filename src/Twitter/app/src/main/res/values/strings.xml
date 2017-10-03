@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/tools">
+    <string name="app_name">Twitterrific</string>
+    <string name="login_label">Log in with Twitter</string>
+    <string name="intent_scheme">oauth</string>
+    <string name="intent_host">cprest</string>
+    <string name="tweet_new">Tweet Posted</string>
+    <string name="tweet_posted">Tweet Posted</string>
+    <string name="tweet_button">Tweet</string>
+    <string name="tweet_new_placeholder">What\'s Happening?</string>
+    <string name="tweet_new_charlimit">Remaining characters: </string>
+    <string name="test">text</string>
+    <string name="logout">Logout</string>
+</resources>

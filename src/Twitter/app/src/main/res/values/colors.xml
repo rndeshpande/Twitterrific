@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#0084b4</color>
+    <color name="colorAccent">#0000EE</color>
+    <color name="backgroundLogin">#1DA1F2</color>
+    <color name="loginButtonBackground">#55acee</color>
+    <color name="fabBackgroundTint">#FF00aced</color>
+    <color name="backgroundTint">#FFFFFF</color>
+    <color name="background">#FFFFFF</color>
+    <color name="colorUsername">#000000</color>
+    <color name="colorBody">#585858</color>
+</resources>

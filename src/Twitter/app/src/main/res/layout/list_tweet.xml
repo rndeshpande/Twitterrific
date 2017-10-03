@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tweet"
+            type="com.codepath.apps.twitter.models.Tweet" />
+
+        <variable
+            name="handler"
+            type="com.codepath.apps.twitter.handlers.TweetHandler" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/Tweet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:imageUrl='@{tweet.user.profileImageUrl}' />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/ivProfile"
+            android:drawableEnd='@{tweet.user.verified ? @drawable/ic_check_mark : null}'
+            android:hint="Name"
+            android:text="@{tweet.user.name + ' '}" />
+
+        <TextView
+            android:id="@+id/tvScreenName"
+            style="@style/ScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/tvName"
+            android:text='@{"@"+ tweet.user.screenName}' />
+
+        <TextView
+            android:id="@+id/tvCreatedAt"
+            style="@style/CreatedAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            app:createdAt="@{tweet.createdAt}" />
+
+        <TextView
+            android:id="@+id/tvBody"
+            style="@style/Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvName"
+            android:layout_toEndOf="@+id/ivProfile"
+            android:autoLink="all"
+            android:text="@{tweet.body}" />
+
+        <RelativeLayout
+            android:id="@+id/rlCounts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvBody"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/ivProfile">
+
+            <TextView
+                android:id="@+id/tvComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="5dp"
+                android:drawableStart="@drawable/ic_comment"
+                />
+
+            <TextView
+                android:id="@+id/tvRetweet"
+                style="@style/RetweetCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="5dp"
+                android:drawableStart="@{tweet.retweeted? @drawable/ic_retweet_clicked : @drawable/ic_retweet}"
+                android:gravity="center"
+                android:text="@{String.valueOf(tweet.retweetCount)}"
+                />
+
+            <TextView
+                android:id="@+id/tvFavorite"
+                style="@style/FavoriteCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:drawablePadding="5dp"
+                android:drawableStart="@{tweet.retweeted? @drawable/ic_favorite_clicked : @drawable/ic_favorite}"
+                android:gravity="center"
+                android:text="@{String.valueOf(tweet.favoriteCount)}"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

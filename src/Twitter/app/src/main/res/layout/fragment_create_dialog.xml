@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="tweet"
+            type="com.codepath.apps.twitter.models.TweetRequest" />
+    </data>
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:windowMinWidthMinor="0dp"
+        android:windowMinWidthMajor="0dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_cross_out"
+            android:layout_alignParentTop="true"
+            android:layout_margin="20dp"
+            />
+        <EditText
+            android:id="@+id/etStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tweet_new_placeholder"
+            android:layout_below="@+id/ivCancel"
+            android:maxLength="140"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:layout_above="@+id/rlBar"
+            style="@style/TweetNewText"
+            android:text='@{(tweet.inReplyToScreenName != null ? "@" + tweet.inReplyToScreenName : "")  +  (tweet.status != null ? " " + tweet.status : "")}'/>
+
+        <RelativeLayout
+            android:id="@+id/rlBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/tvCharCount"
+                style="@style/TweetNewCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/btnSubmit"
+                android:layout_centerVertical="true"
+                android:text="test"
+                android:paddingBottom="0dp"/>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/tweet_button"
+                style="@style/TweetCreate"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

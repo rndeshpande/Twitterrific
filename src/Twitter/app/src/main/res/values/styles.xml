@@ -1,0 +1,123 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+         <item name="android:windowBackground">@color/background</item>
+        <item name="fontPath">fonts/Helvetica Neu Bold.ttf</item>
+    </style>
+
+    <style name="Login">
+        <item name="android:background">@color/backgroundLogin</item>
+    </style>
+    <style name="LoginAppName">
+        <item name="android:fontFamily">Casual</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="LoginButton">
+        <item name="android:textColor">@color/background</item>
+        <item name="android:background">@color/loginButtonBackground</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontPath">fonts/Helvetica Neu Bold.ttf</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="Tweet">
+        <item name="android:layout_margin">@dimen/tweet_margin</item>
+    </style>
+
+    <style name="UserName">
+        <item name="android:layout_marginStart">@dimen/user_name_margin_start</item>
+        <item name="fontPath">fonts/Helvetica Neu Bold.ttf</item>
+        <item name="android:textSize">@dimen/tweet_text_size</item>
+        <item name="android:textColor">@color/colorUsername</item>
+    </style>
+
+    <style name="ScreenName">
+        <item name="android:layout_marginStart">@dimen/user_name_margin_start</item>
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+        <item name="android:textSize">@dimen/tweet_text_size</item>
+    </style>
+
+    <style name="Verified">
+        <item name="android:layout_marginStart">@dimen/user_name_margin_start</item>
+    </style>
+
+    <style name="CreatedAt">
+        <item name="android:layout_marginStart">@dimen/user_name_margin_start</item>
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+        <item name="android:textSize">@dimen/tweet_text_size</item>
+    </style>
+
+    <style name="Body">
+        <item name="android:layout_marginStart">@dimen/user_name_margin_start</item>
+        <item name="android:textSize">@dimen/tweet_text_size</item>
+        <item name="fontPath">fonts/Helvetica Neu Bold.ttf</item>
+        <item name="android:layout_marginTop">@dimen/body_margin_top</item>
+        <item name="android:textColor">@color/colorBody</item>
+    </style>
+
+    <style name="BodyDetails">
+        <item name="android:textSize">@dimen/tweet_text_size_details</item>
+        <item name="fontPath">fonts/Helvetica Neu Bold.ttf</item>
+        <item name="android:layout_marginTop">@dimen/body_margin_top</item>
+        <item name="android:textColor">@color/colorBody</item>
+    </style>
+
+    <style name="RetweetCount">
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+        <item name="android:textSize">@dimen/count_text_size</item>
+    </style>
+
+    <style name="FavoriteCount">
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+        <item name="android:textSize">@dimen/count_text_size</item>
+    </style>
+
+    <style name="Fab">
+        <item name="android:backgroundTint">@color/fabBackgroundTint</item>
+        <item name="android:layout_margin">@dimen/fab_margin</item>
+    </style>
+
+    <style name="TweetCreate">
+        <item name="android:background">@drawable/tweet_create</item>
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="fontPath">fonts/Helvetica Neu Bold.ttf</item>
+        <item name="android:textSize">@dimen/tweet_text_size</item>
+    </style>
+    <style name="TweetNewText">
+        <item name="android:textSize">@dimen/tweet_text_size</item>
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+    </style>
+    <style name="TweetNewCount">
+        <item name="android:textSize">@dimen/tweet_text_size</item>
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+    </style>
+
+    <style name="DetailsCountsSummary">
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:background">@drawable/row_border</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+    </style>
+
+    <style name="DetailsCreatedAt">
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:background">@drawable/row_border</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+    </style>
+</resources>
