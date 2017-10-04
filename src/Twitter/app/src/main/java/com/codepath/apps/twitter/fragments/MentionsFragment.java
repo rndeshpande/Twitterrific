@@ -20,6 +20,7 @@ import com.codepath.apps.twitter.databinding.FragmentMentionsBinding;
 import com.codepath.apps.twitter.databinding.FragmentTimelineBinding;
 import com.codepath.apps.twitter.listeners.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.twitter.models.Tweet;
+import com.codepath.apps.twitter.providers.DataProvider;
 import com.codepath.apps.twitter.utils.CommonUtils;
 import com.codepath.apps.twitter.utils.NetworkUtils;
 import com.codepath.apps.twitter.utils.TwitterApp;
@@ -105,7 +106,7 @@ public class MentionsFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                //populateTimeline();
+                populateTimeline();
             }
         };
         rvTweets.addOnScrollListener(scrollListener);
@@ -119,8 +120,8 @@ public class MentionsFragment extends Fragment {
 
         swipeContainer = mBinding.swipeContainer;
         swipeContainer.setOnRefreshListener(() -> {
-            //resetSearch();
-            //populateTimeline();
+            resetSearch();
+            populateTimeline();
         });
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -138,7 +139,6 @@ public class MentionsFragment extends Fragment {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray responseArray) {
-                    Log.d(TAG, "api call success");
                     for (int i = 0; i < responseArray.length(); i++) {
                         Tweet tweet = null;
                         try {
@@ -170,7 +170,7 @@ public class MentionsFragment extends Fragment {
             });
         else {
             CommonUtils.showMessage(mBinding.getRoot(), "Unable to refresh data. No network connection available.");
-            //populateDataFromDb();
+            populateDataFromDb();
         }
     }
 
@@ -179,11 +179,38 @@ public class MentionsFragment extends Fragment {
         mTweets.add(tweet);
         mAdapter.notifyItemInserted(mTweets.size() - 1);
         swipeContainer.setRefreshing(false);
-        Log.d(TAG, "adapter refreshed");
-        //setMaxId(tweet.uuid);
-        //updateDatabase(tweet);
+        setMaxId(tweet.uuid);
+        updateDatabase(tweet);
     }
 
+    private void resetSearch() {
+        mTweets.clear();
+        mAdapter.notifyDataSetChanged();
+        mMaxId = 0;
+        DataProvider provider = new DataProvider();
+        provider.deleteAll();
+    }
+
+    private void populateDataFromDb() {
+        DataProvider provider = new DataProvider();
+        ArrayList<Tweet> tweets = provider.readTweets();
+
+        for (Tweet tweet : tweets) {
+            refreshDataAndUI(tweet);
+        }
+    }
+
+    private void updateDatabase(Tweet tweet) {
+        tweet.user.save();
+        tweet.save();
+    }
+
+    private void setMaxId(long maxId) {
+        if (mMaxId == 0)
+            mMaxId = maxId;
+        else
+            mMaxId = maxId < mMaxId ? maxId : mMaxId;
+    }
 
     public void onButtonPressed(Uri uri) {
     }
