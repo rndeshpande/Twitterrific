@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.codepath.apps.twitter.fragments.MentionsFragment;
 import com.codepath.apps.twitter.fragments.TimelineFragment;
 
 /**
@@ -29,9 +30,7 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TimelineFragment.newInstance(position + 1);
-
-        /*switch (position) {
+        switch (position) {
             case 0:
                 return TimelineFragment.newInstance(position + 1);
             case 1:
@@ -39,7 +38,6 @@ public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }
-        */
     }
 
     @Override
