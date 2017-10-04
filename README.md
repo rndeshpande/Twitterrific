@@ -8,7 +8,7 @@ Time spent: **X** hours spent in total
 
 The following **required** functionality is completed:
 
-* [ ] The app includes **all required user stories** from Week 3 Twitter Client
+* [X] The app includes **all required user stories** from Week 3 Twitter Client
 * [ ] User can **switch between Timeline and Mention views using tabs**
   * [ ] User can view their home timeline tweets.
   * [ ] User can view the recent mentions of their username.
