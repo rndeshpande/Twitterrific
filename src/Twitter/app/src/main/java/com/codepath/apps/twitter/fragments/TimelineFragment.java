@@ -48,7 +48,6 @@ public class TimelineFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView rvTweets;
     private FragmentTimelineBinding mBinding;
-    FloatingActionButton btnCreatePost;
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
     long mMaxId = 0;
@@ -83,12 +82,6 @@ public class TimelineFragment extends Fragment {
     }
 
     private void initialize() {
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Helvetica Neu Bold.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
-
 
         client = TwitterApp.getRestClient();
         rvTweets = mBinding.rvTweet;
@@ -108,13 +101,6 @@ public class TimelineFragment extends Fragment {
             }
         };
         rvTweets.addOnScrollListener(scrollListener);
-
-        btnCreatePost = mBinding.btnCreatePost;
-
-        btnCreatePost.setOnClickListener(v -> {
-            btnCreatePost.animate().rotation(ROTATION);
-            //showCreateDialog(null);
-        });
 
         swipeContainer = mBinding.swipeContainer;
         swipeContainer.setOnRefreshListener(() -> {
@@ -210,8 +196,6 @@ public class TimelineFragment extends Fragment {
             mMaxId = maxId;
         else
             mMaxId = maxId < mMaxId ? maxId : mMaxId;
-    }
-    public void onButtonPressed(Uri uri) {
     }
 
     @Override

@@ -40,7 +40,7 @@ public class MentionsFragment extends Fragment {
 
     public static final String ARG_PAGE = "ARG_PAGE";
     private static final String TAG = "TwitterClient";
-    private static final int ROTATION = 360;
+
 
     private TwitterClient client;
     private ArrayList<Tweet> mTweets;
@@ -48,7 +48,7 @@ public class MentionsFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView rvTweets;
     private FragmentMentionsBinding mBinding;
-    FloatingActionButton btnCreatePost;
+
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
     long mMaxId = 0;
@@ -85,13 +85,6 @@ public class MentionsFragment extends Fragment {
     }
 
     private void initialize() {
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Helvetica Neu Bold.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
-
-
         client = TwitterApp.getRestClient();
         rvTweets = mBinding.rvTweet;
         mTweets = new ArrayList<>();
@@ -110,13 +103,6 @@ public class MentionsFragment extends Fragment {
             }
         };
         rvTweets.addOnScrollListener(scrollListener);
-
-        btnCreatePost = mBinding.btnCreatePost;
-
-        btnCreatePost.setOnClickListener(v -> {
-            btnCreatePost.animate().rotation(ROTATION);
-            //showCreateDialog(null);
-        });
 
         swipeContainer = mBinding.swipeContainer;
         swipeContainer.setOnRefreshListener(() -> {
@@ -210,9 +196,6 @@ public class MentionsFragment extends Fragment {
             mMaxId = maxId;
         else
             mMaxId = maxId < mMaxId ? maxId : mMaxId;
-    }
-
-    public void onButtonPressed(Uri uri) {
     }
 
     @Override

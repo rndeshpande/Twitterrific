@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
          <item name="android:windowBackground">@color/background</item>
         <item name="fontPath">fonts/Helvetica Neu Bold.ttf</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="Login">
