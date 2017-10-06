@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="user"
+            type="com.codepath.apps.twitter.models.User" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context="com.codepath.apps.twitter.activities.ProfileActivity"
+        style="@style/Tweet">
+
+        <ImageView
+            android:id="@+id/ivHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/ivPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivHeader"
+            app:imageUrl='@{user.profileImageUrl}'/>
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivPicture"
+            android:drawableEnd='@{user.verified ? @drawable/ic_check_mark : null}'
+            android:hint="Name"
+            android:text="@{user.name + ' '}" />
+
+        <TextView
+            android:id="@+id/tvScreenName"
+            style="@style/ScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvName"
+            android:text='@{"@"+ user.screenName}' />
+
+        <TextView
+            android:id="@+id/tvTagline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvScreenName"
+            android:text="@{user.description}"/>
+
+        <TextView
+            android:id="@+id/tvFollowingCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTagline"
+            android:text='@{String.valueOf(user.friendsCount) + " Following"}'
+            style="@style/DetailsCountsSummary"/>
+
+        <TextView
+            android:id="@+id/tvFollowerCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTagline"
+            android:layout_toEndOf="@id/tvFollowingCount"
+            android:text='@{String.valueOf(user.followersCount) + " Followers"}'
+            style="@style/DetailsCountsSummary"/>
+
+
+    </RelativeLayout>
+</layout>

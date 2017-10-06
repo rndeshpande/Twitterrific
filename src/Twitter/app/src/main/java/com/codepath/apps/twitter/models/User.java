@@ -69,6 +69,36 @@ public class User extends BaseModel {
     @Column
     public String profileImageUrl;
 
+    public long getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(long followersCount) {
+        this.followersCount = followersCount;
+    }
+
+    public long getFriendsCount() {
+        return friendsCount;
+    }
+
+    public void setFriendsCount(long friendsCount) {
+        this.friendsCount = friendsCount;
+    }
+
+    public long followersCount;
+
+    public long friendsCount;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String description;
+
     @Column
     public boolean verified;
 
@@ -79,6 +109,9 @@ public class User extends BaseModel {
         user.screenName = jsonObject.getString("screen_name");
         user.profileImageUrl = jsonObject.getString("profile_image_url");
         user.verified = jsonObject.getBoolean("verified");
+        user.followersCount = jsonObject.getLong("followers_count");
+        user.friendsCount = jsonObject.getLong("friends_count");
+        user.description = jsonObject.getString("description");
         return user;
     }
 }

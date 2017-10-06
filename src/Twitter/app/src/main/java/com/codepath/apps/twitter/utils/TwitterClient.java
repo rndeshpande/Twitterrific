@@ -36,6 +36,7 @@ public class TwitterClient extends OAuthBaseClient {
 	public static final String REST_CALLBACK_URL_TEMPLATE = "intent://%s#Intent;action=android.intent.action.VIEW;scheme=%s;package=%s;S.browser_fallback_url=%s;end";
 
 	private static final int REQUEST_ITEM_COUNT = 25;
+    private static final String TAG = "TwitterClient";
 
 	public TwitterClient(Context context) {
 		super(context, REST_API_INSTANCE,
@@ -48,7 +49,6 @@ public class TwitterClient extends OAuthBaseClient {
 
 	public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
         String apiUrl = getApiUrl("statuses/home_timeline.json");
-		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("format", "json");
 		params.put("count", REQUEST_ITEM_COUNT);
@@ -59,7 +59,6 @@ public class TwitterClient extends OAuthBaseClient {
 
 	public void getMentionsTimeline(long maxId, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
-		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("format", "json");
 		params.put("count", REQUEST_ITEM_COUNT);
@@ -79,7 +78,6 @@ public class TwitterClient extends OAuthBaseClient {
 
     public void postReTweet(long tweetId, Boolean retweet, AsyncHttpResponseHandler handler) {
         String  apiUrl = retweet ? getApiUrl("statuses/retweet.json") : getApiUrl("statuses/unretweet.json");
-        Log.d("TWITTERCLIENT", apiUrl);
         RequestParams params = new RequestParams();
         params.put("id", tweetId);
         client.post(apiUrl, params, handler);
@@ -87,7 +85,6 @@ public class TwitterClient extends OAuthBaseClient {
 
     public void postFavorite(long tweetId, Boolean favorite, AsyncHttpResponseHandler handler) {
         String  apiUrl = favorite ? getApiUrl("favorites/create.json") : getApiUrl("favorites/destroy.json");
-        Log.d("TWITTERCLIENT", apiUrl);
         RequestParams params = new RequestParams();
         params.put("id", tweetId);
         client.post(apiUrl, params, handler);
@@ -98,8 +95,19 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("id", tweetId);
         params.put("tweet_mode", "extended");
-		Log.d("TwitterClient", params.toString());
 		client.get(apiUrl, params, handler);
 	}
 
+	public void getProfileByScreenName(String userName, AsyncHttpResponseHandler handler) {
+		String  apiUrl = getApiUrl("users/show.json");
+		RequestParams params = new RequestParams();
+		params.put("screen_name", userName);
+		client.get(apiUrl, params, handler);
+	}
+
+    public void getLoggedInUserInformation(AsyncHttpResponseHandler handler) {
+        String  apiUrl = getApiUrl("account/verify_credentials.json");
+        RequestParams params = new RequestParams();
+        client.get(apiUrl, params, handler);
+    }
 }

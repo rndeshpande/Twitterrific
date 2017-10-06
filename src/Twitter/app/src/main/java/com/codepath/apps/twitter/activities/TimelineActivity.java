@@ -55,7 +55,6 @@ public class TimelineActivity extends AppCompatActivity implements CreateDialogF
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
     long mMaxId = 0;
-    Button btnLogout;
 
     private static final String TAG = "TwitterClient";
     private static final int ROTATION = 360;

@@ -46,7 +46,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.DetailsActivity" />
-        <activity android:name=".activities.HomeActivity"></activity>
+        <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.ProfileActivity"></activity>
     </application>
 
 </manifest>
