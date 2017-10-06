@@ -22,7 +22,8 @@
             android:layout_height="120dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:src="@drawable/user_profile_default_header" />
+            android:background="@drawable/user_profile_default_header"
+            app:imageUrlOriginal="@{user.profileBackgroundImageUrl}" />
 
             <ImageView
                 android:id="@+id/ivPicture"
@@ -33,7 +34,7 @@
                 android:scaleType="fitXY"
                 android:background="@drawable/user_profile_picture_border"
                 android:adjustViewBounds="true"
-                app:imageUrlOriginal='@{user.profileImageUrl}' />
+                app:imageUrlOriginalCircle='@{user.profileImageUrl}' />
 
         </RelativeLayout>
 

@@ -7,5 +7,5 @@ public class AppDatabase {
 
     public static final String NAME = "TwitterDatabase";
 
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
 }

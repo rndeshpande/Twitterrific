@@ -38,6 +38,20 @@ public class CustomBindingAdapter {
             Glide.with(view.getContext())
                     .load(imageUrl)
                     .apply(new RequestOptions()
+                            .placeholder(R.drawable.ic_launcher))
+                    .into(view);
+        }
+    }
+
+    @BindingAdapter({"bind:imageUrlOriginalCircle"})
+    public static void loadImageOriginalCircle(ImageView view, String imageUrl) {
+
+        if(imageUrl != null && !imageUrl.isEmpty()) {
+            imageUrl = imageUrl.replace("_normal", "");
+            Log.d("TwitterClient", "url: " + imageUrl);
+            Glide.with(view.getContext())
+                    .load(imageUrl)
+                    .apply(new RequestOptions()
                             .circleCrop()
                             .placeholder(R.drawable.ic_launcher))
                     .into(view);

@@ -85,8 +85,10 @@ public class User extends BaseModel {
         this.friendsCount = friendsCount;
     }
 
+    @Column
     public long followersCount;
 
+    @Column
     public long friendsCount;
 
     public String getDescription() {
@@ -97,10 +99,23 @@ public class User extends BaseModel {
         this.description = description;
     }
 
+    @Column
     public String description;
+
+    public String getProfileBackgroundImageUrl() {
+        return profileBackgroundImageUrl;
+    }
+
+    public void setProfileBackgroundImageUrl(String profileBackgroundImageUrl) {
+        this.profileBackgroundImageUrl = profileBackgroundImageUrl;
+    }
+
+    @Column
+    public String profileBackgroundImageUrl;
 
     @Column
     public boolean verified;
+
 
     public static User fromJSON(JSONObject jsonObject) throws JSONException{
         User user = new User();
@@ -112,6 +127,7 @@ public class User extends BaseModel {
         user.followersCount = jsonObject.getLong("followers_count");
         user.friendsCount = jsonObject.getLong("friends_count");
         user.description = jsonObject.getString("description");
+        user.profileBackgroundImageUrl = jsonObject.getString("profile_banner_url");
         return user;
     }
 }
