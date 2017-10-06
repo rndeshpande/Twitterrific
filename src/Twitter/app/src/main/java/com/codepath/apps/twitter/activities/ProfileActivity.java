@@ -1,6 +1,8 @@
 package com.codepath.apps.twitter.activities;
 
 import android.databinding.DataBindingUtil;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -11,6 +13,7 @@ import android.util.Log;
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.adapters.TweetAdapter;
 import com.codepath.apps.twitter.databinding.ActivityProfileBinding;
+import com.codepath.apps.twitter.fragments.UserTimelineFragment;
 import com.codepath.apps.twitter.listeners.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.twitter.models.Tweet;
 import com.codepath.apps.twitter.models.TweetExtended;
@@ -34,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TwitterClient client;
     private ActivityProfileBinding mBinding;
+    private User mUser;
 
     private static final String TAG = "TwitterClient";
 
@@ -44,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         initialize();
         populateView();
+        setupUserTimeline();
     }
 
     private void initialize() {
@@ -71,7 +76,8 @@ public class ProfileActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Log.d(TAG, user.toString());
-                    mBinding.setUser(user);
+                    mUser = user;
+                    mBinding.setUser(mUser);
                 }
 
                 @Override
@@ -96,5 +102,18 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             CommonUtils.showMessage(mBinding.container, getString(R.string.network_not_available_message));
         }
+    }
+
+    private void setupUserTimeline() {
+        Fragment fragment = null;
+        Class fragmentClass;
+
+        try {
+            fragment = UserTimelineFragment.newInstance(mUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flTimeline, fragment).commit();
     }
 }

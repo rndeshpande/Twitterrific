@@ -1,26 +1,21 @@
 package com.codepath.apps.twitter.fragments;
 
-import android.content.Context;
-import android.net.Uri;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.adapters.TweetAdapter;
-import com.codepath.apps.twitter.databinding.FragmentMentionsBinding;
-import com.codepath.apps.twitter.databinding.FragmentTimelineBinding;
+import com.codepath.apps.twitter.databinding.FragmentUserTimelineBinding;
 import com.codepath.apps.twitter.listeners.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.twitter.models.Tweet;
-import com.codepath.apps.twitter.providers.DataProvider;
+import com.codepath.apps.twitter.models.User;
 import com.codepath.apps.twitter.utils.CommonUtils;
 import com.codepath.apps.twitter.utils.NetworkUtils;
 import com.codepath.apps.twitter.utils.TwitterApp;
@@ -30,39 +25,38 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-public class MentionsFragment extends Fragment {
+/**
+ * Created by rdeshpan on 10/5/2017.
+ */
 
-    public static final String ARG_PAGE = "ARG_PAGE";
-    private static final String TAG = "TwitterClient";
+public class UserTimelineFragment extends Fragment {
 
-
-    private TwitterClient client;
+    private TwitterClient mClient;
     private ArrayList<Tweet> mTweets;
     private TweetAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView rvTweets;
-    private FragmentMentionsBinding mBinding;
-
-    SwipeRefreshLayout swipeContainer;
+    private FragmentUserTimelineBinding mBinding;
     EndlessRecyclerViewScrollListener scrollListener;
     long mMaxId = 0;
-    private int mPage;
+    private User mUser;
 
-    public MentionsFragment() {
-        // Required empty public constructor
+    private static final String TAG = "TwitterClient";
+
+
+    public UserTimelineFragment() {
     }
 
-
-    public static MentionsFragment newInstance(int page) {
-        MentionsFragment fragment = new MentionsFragment();
+    public static UserTimelineFragment newInstance(User user) {
+        UserTimelineFragment fragment = new UserTimelineFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PAGE, page);
+        args.putParcelable("user", Parcels.wrap(user));
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,60 +65,42 @@ public class MentionsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mPage = getArguments().getInt(ARG_PAGE);
+            mUser = Parcels.unwrap(getArguments().getParcelable("user"));
         }
+        mClient = TwitterApp.getRestClient();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = FragmentMentionsBinding.inflate(inflater, container, false);
+
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_timeline, container, false);
         initialize();
         populateTimeline();
         return mBinding.getRoot();
     }
 
     private void initialize() {
-        client = TwitterApp.getRestClient();
         rvTweets = mBinding.rvTweets;
         mTweets = new ArrayList<>();
-
-        mAdapter = new TweetAdapter(getContext(), client, mTweets, getFragmentManager());
+        mAdapter = new TweetAdapter(getContext(), mClient, mTweets, getFragmentManager());
         mLayoutManager = new LinearLayoutManager(getContext());
         rvTweets.setAdapter(mAdapter);
         rvTweets.setLayoutManager(mLayoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvTweets.addItemDecoration(dividerItemDecoration);
-
-        scrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                populateTimeline();
-            }
-        };
-        rvTweets.addOnScrollListener(scrollListener);
-
-        swipeContainer = mBinding.swipeContainer;
-        swipeContainer.setOnRefreshListener(() -> {
-            resetSearch();
-            populateTimeline();
-        });
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
     }
 
-
     private void populateTimeline() {
-        if (NetworkUtils.isNetworkAvailable(getActivity()))
-            client.getMentionsTimeline(mMaxId - 1, new JsonHttpResponseHandler() {
+        if (NetworkUtils.isNetworkAvailable(getActivity())) {
+            mClient.getUserTimeline(mMaxId - 1, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 }
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray responseArray) {
+
                     for (int i = 0; i < responseArray.length(); i++) {
                         Tweet tweet = null;
                         try {
@@ -138,52 +114,35 @@ public class MentionsFragment extends Fragment {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    swipeContainer.setRefreshing(false);
+                    //swipeContainer.setRefreshing(false);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    swipeContainer.setRefreshing(false);
+                    //swipeContainer.setRefreshing(false);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                    swipeContainer.setRefreshing(false);
+                    //swipeContainer.setRefreshing(false);
                     throwable.printStackTrace();
                 }
             });
-        else {
-            CommonUtils.showMessage(mBinding.getRoot(), "Unable to refresh data. No network connection available.");
-            populateDataFromDb();
+        } else {
+            // TODO : Enable this code or refactor
+            //CommonUtils.showMessage(mBinding.clMain, "Unable to refresh data. No network connection available.");
+            //populateDataFromDb();
         }
     }
 
     private void refreshDataAndUI(Tweet tweet) {
-        Log.d(TAG, tweet.body);
         mTweets.add(tweet);
         mAdapter.notifyItemInserted(mTweets.size() - 1);
-        swipeContainer.setRefreshing(false);
+        //swipeContainer.setRefreshing(false);
         setMaxId(tweet.uuid);
         updateDatabase(tweet);
-    }
-
-    private void resetSearch() {
-        mTweets.clear();
-        mAdapter.notifyDataSetChanged();
-        mMaxId = 0;
-        DataProvider provider = new DataProvider();
-        provider.deleteAll();
-    }
-
-    private void populateDataFromDb() {
-        DataProvider provider = new DataProvider();
-        ArrayList<Tweet> tweets = provider.readTweets();
-
-        for (Tweet tweet : tweets) {
-            refreshDataAndUI(tweet);
-        }
     }
 
     private void updateDatabase(Tweet tweet) {
@@ -196,15 +155,5 @@ public class MentionsFragment extends Fragment {
             mMaxId = maxId;
         else
             mMaxId = maxId < mMaxId ? maxId : mMaxId;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 }

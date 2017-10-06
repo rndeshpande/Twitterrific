@@ -29,6 +29,36 @@ public class CustomBindingAdapter {
                 .into(view);
     }
 
+    @BindingAdapter({"bind:imageUrlOriginal"})
+    public static void loadImageOriginal(ImageView view, String imageUrl) {
+
+        if(imageUrl != null && !imageUrl.isEmpty()) {
+            imageUrl = imageUrl.replace("_normal", "");
+            Log.d("TwitterClient", "url: " + imageUrl);
+            Glide.with(view.getContext())
+                    .load(imageUrl)
+                    .apply(new RequestOptions()
+                            .circleCrop()
+                            .placeholder(R.drawable.ic_launcher))
+                    .into(view);
+        }
+    }
+
+    @BindingAdapter({"bind:imageUrlBigger"})
+    public static void loadImageBigger(ImageView view, String imageUrl) {
+
+        if(imageUrl != null && !imageUrl.isEmpty()) {
+            imageUrl = imageUrl.replace("normal", "bigger");
+            Log.d("TwitterClient", "url: " + imageUrl);
+            Glide.with(view.getContext())
+                    .load(imageUrl)
+                    .apply(new RequestOptions()
+                            .circleCrop()
+                            .placeholder(R.drawable.ic_launcher))
+                    .into(view);
+        }
+    }
+
     @BindingAdapter({"bind:imageUrlFull"})
     public static void loadImageFull(ImageView view, String imageUrl) {
 

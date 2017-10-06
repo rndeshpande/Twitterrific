@@ -121,4 +121,44 @@
         <item name="android:paddingBottom">5dp</item>
         <item name="android:paddingTop">5dp</item>
     </style>
+
+    <!-- User Profile Styles Start -->
+
+    <style name="ProfileCounts" parent="Profile">
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="ProfileCountsFollower" parent="ProfileCounts">
+        <item name="android:layout_marginStart">30dp</item>
+    </style>
+
+    <style name="ProfileUsername" parent="Profile">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="fontPath">fonts/Helvetica Neu Bold.ttf</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorUsername</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="ProfileScreenName" parent="Profile">
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="ProfileDescription" parent="Profile">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="fontPath">fonts/HelveticaNeue Medium.ttf</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/colorUsername</item>
+    </style>
+
+    <style name="Profile">
+        <item name="android:layout_marginStart">@dimen/tweet_margin</item>
+        <item name="android:layout_marginEnd">@dimen/tweet_margin</item>
+        <item name="android:layout_marginBottom">@dimen/tweet_margin</item>
+    </style>
+
+    <!-- User Profile Styles End -->
 </resources>
