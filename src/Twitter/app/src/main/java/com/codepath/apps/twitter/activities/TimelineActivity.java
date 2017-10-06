@@ -77,11 +77,13 @@ public class TimelineActivity extends AppCompatActivity implements CreateDialogF
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        /*
         switch (item.getItemId()) {
             case R.id.action_logout:
                 logout();
                 break;
         }
+        */
         return true;
     }
 

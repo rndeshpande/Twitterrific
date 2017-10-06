@@ -3,14 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_first_fragment"
-            android:title="First" />
-        <item
-            android:id="@+id/nav_second_fragment"
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_user_profile"
+            android:title="@string/menu_item_profile" />
 
-            android:title="Second" />
         <item
-            android:id="@+id/nav_third_fragment"
-            android:title="Third" />
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_user_profile"
+            android:title="@string/logout" />
     </group>
 </menu>

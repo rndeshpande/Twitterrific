@@ -126,7 +126,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         }
 
         private void postRetweet(long tweetId, Boolean retweeted, int position) {
-            Log.d("TWITTERCLIENT", "Retweeted before: " +  String.valueOf(retweeted));
             mClient.postReTweet(tweetId, !retweeted, new JsonHttpResponseHandler() {
 
                 @Override
@@ -135,7 +134,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     Tweet tweet = new Tweet();
                     try {
                         tweet = Tweet.fromJSON(response);
-                        Log.d("TWITTERCLIENT", "Retweeted: " +  tweet.retweeted);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -169,7 +167,6 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             mClient.postFavorite(tweetId, !favorited, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    Log.d("TWITTERCLIENT", "favorite success");
                     Tweet tweet = new Tweet();
                     try {
                         tweet = Tweet.fromJSON(response);

@@ -70,12 +70,10 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     User user = new User();
                     try {
-                        Log.d(TAG, response.toString());
                         user = User.fromJSON(response);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.d(TAG, user.toString());
                     mUser = user;
                     mBinding.setUser(mUser);
                 }

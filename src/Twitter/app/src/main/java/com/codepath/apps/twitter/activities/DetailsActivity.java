@@ -76,12 +76,10 @@ public class DetailsActivity extends AppCompatActivity implements CreateDialogFr
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 TweetExtended tweetExtended = new TweetExtended();
                 try {
-                    Log.d(TAG, response.toString());
                     tweetExtended = TweetExtended.fromJSON(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d(TAG, tweetExtended.body);
                 mBinding.setTweet(tweetExtended);
                 setupMediaDisplay(tweetExtended);
             }

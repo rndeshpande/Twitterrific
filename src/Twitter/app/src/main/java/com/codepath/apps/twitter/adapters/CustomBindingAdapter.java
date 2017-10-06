@@ -34,7 +34,6 @@ public class CustomBindingAdapter {
 
         if(imageUrl != null && !imageUrl.isEmpty()) {
             imageUrl = imageUrl.replace("_normal", "");
-            Log.d("TwitterClient", "url: " + imageUrl);
             Glide.with(view.getContext())
                     .load(imageUrl)
                     .apply(new RequestOptions()
@@ -48,7 +47,6 @@ public class CustomBindingAdapter {
 
         if(imageUrl != null && !imageUrl.isEmpty()) {
             imageUrl = imageUrl.replace("_normal", "");
-            Log.d("TwitterClient", "url: " + imageUrl);
             Glide.with(view.getContext())
                     .load(imageUrl)
                     .apply(new RequestOptions()
@@ -63,7 +61,6 @@ public class CustomBindingAdapter {
 
         if(imageUrl != null && !imageUrl.isEmpty()) {
             imageUrl = imageUrl.replace("normal", "bigger");
-            Log.d("TwitterClient", "url: " + imageUrl);
             Glide.with(view.getContext())
                     .load(imageUrl)
                     .apply(new RequestOptions()

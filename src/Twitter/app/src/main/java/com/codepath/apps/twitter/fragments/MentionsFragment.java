@@ -161,7 +161,6 @@ public class MentionsFragment extends Fragment {
     }
 
     private void refreshDataAndUI(Tweet tweet) {
-        Log.d(TAG, tweet.body);
         mTweets.add(tweet);
         mAdapter.notifyItemInserted(mTweets.size() - 1);
         swipeContainer.setRefreshing(false);

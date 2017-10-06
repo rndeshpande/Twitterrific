@@ -123,7 +123,6 @@ public class TimelineFragment extends Fragment {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray responseArray) {
-                    Log.d(TAG, "api call success");
                     for (int i = 0; i < responseArray.length(); i++) {
                         Tweet tweet = null;
                         try {
@@ -160,11 +159,9 @@ public class TimelineFragment extends Fragment {
     }
 
     private void refreshDataAndUI(Tweet tweet) {
-        Log.d(TAG, tweet.body);
         mTweets.add(tweet);
         mAdapter.notifyItemInserted(mTweets.size() - 1);
         swipeContainer.setRefreshing(false);
-        Log.d(TAG, "adapter refreshed");
         setMaxId(tweet.uuid);
         updateDatabase(tweet);
     }
