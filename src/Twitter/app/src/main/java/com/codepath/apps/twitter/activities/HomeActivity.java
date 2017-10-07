@@ -17,22 +17,30 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.adapters.HomeFragmentPagerAdapter;
 import com.codepath.apps.twitter.fragments.CreateDialogFragment;
 import com.codepath.apps.twitter.fragments.TimelineFragment;
+import com.codepath.apps.twitter.models.Tweet;
 import com.codepath.apps.twitter.models.TweetRequest;
+import com.codepath.apps.twitter.utils.CommonUtils;
 import com.codepath.apps.twitter.utils.TwitterApp;
 import com.codepath.apps.twitter.utils.TwitterClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity  implements CreateDialogFragment.OnFragmentInteractionListener {
 
     private TwitterClient client;
     FloatingActionButton btnCreatePost;
@@ -41,6 +49,8 @@ public class HomeActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
+    ViewPager mViewPager;
+    HomeFragmentPagerAdapter mAdapter;
 
     private static final String TAG = "TwitterClient";
 
@@ -137,13 +147,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // TODO : remove this comments
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -179,16 +182,17 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupTabs() {
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new HomeFragmentPagerAdapter(getSupportFragmentManager(), HomeActivity.this));
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mAdapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), HomeActivity.this);
+        mViewPager.setAdapter(mAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        setTitle(viewPager.getAdapter().getPageTitle(tabLayout.getSelectedTabPosition()));
+        tabLayout.setupWithViewPager(mViewPager);
+        setTitle(mViewPager.getAdapter().getPageTitle(tabLayout.getSelectedTabPosition()));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                setTitle(viewPager.getAdapter().getPageTitle(tabLayout.getSelectedTabPosition()));
+                setTitle(mViewPager.getAdapter().getPageTitle(tabLayout.getSelectedTabPosition()));
             }
 
             @Override
@@ -216,5 +220,53 @@ public class HomeActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onFragmentInteraction(TweetRequest tweetRequest) {
+        //Toast.makeText(this, tweetRequest.getStatus(), Toast.LENGTH_SHORT).show();
+        postTweet(tweetRequest);
+        //CommonUtils.showMessage(mBinding.clMain, getString(R.string.tweet_posted));
+    }
+
+    // TODO : move this to a separate class
+    private void postTweet(TweetRequest tweetRequest) {
+        client.postTweet(tweetRequest, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Tweet tweet = new Tweet();
+                try {
+                    tweet = Tweet.fromJSON(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                updateHomeTimeline(tweet);
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray responseArray) {
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    private void updateHomeTimeline(Tweet tweet) {
+        Toast.makeText(this, "Updating Fragment", Toast.LENGTH_SHORT).show();
+        TimelineFragment fragment = (TimelineFragment) mAdapter.getRegisteredFragment(0);
+        fragment.addTweetToTop(tweet);
     }
 }

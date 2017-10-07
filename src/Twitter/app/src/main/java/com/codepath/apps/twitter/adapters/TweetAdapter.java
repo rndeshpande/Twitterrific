@@ -81,7 +81,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             binding = ListTweetBinding.bind(itemView);
-            itemView.setOnClickListener(this);
+
+            //itemView.setOnClickListener(this);
             binding.tvComment.setOnClickListener(v-> {
                 onCommentClick(binding.tvComment);
             });

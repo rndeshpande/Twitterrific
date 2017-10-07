@@ -127,7 +127,13 @@ public class User extends BaseModel {
         user.followersCount = jsonObject.getLong("followers_count");
         user.friendsCount = jsonObject.getLong("friends_count");
         user.description = jsonObject.getString("description");
-        user.profileBackgroundImageUrl = jsonObject.getString("profile_banner_url");
+
+        try {
+            user.profileBackgroundImageUrl = jsonObject.getString("profile_banner_url");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return user;
     }
 }

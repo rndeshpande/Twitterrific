@@ -195,6 +195,12 @@ public class TimelineFragment extends Fragment {
             mMaxId = maxId < mMaxId ? maxId : mMaxId;
     }
 
+    public void addTweetToTop(Tweet tweet) {
+        mTweets.add(0, tweet);
+        mAdapter.notifyItemInserted(0);
+        rvTweets.smoothScrollToPosition(0);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

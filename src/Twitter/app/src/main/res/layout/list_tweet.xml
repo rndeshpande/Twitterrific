@@ -64,7 +64,7 @@
             android:layout_below="@id/tvName"
             android:layout_toEndOf="@+id/ivProfile"
             android:autoLink="all"
-            android:text="@{tweet.body}" />
+            app:textClickableSpan="@{tweet.body}" />
 
         <RelativeLayout
             android:id="@+id/rlCounts"

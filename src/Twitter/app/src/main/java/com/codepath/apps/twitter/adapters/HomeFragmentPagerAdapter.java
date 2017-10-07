@@ -12,7 +12,7 @@ import com.codepath.apps.twitter.fragments.TimelineFragment;
  * Created by rdeshpan on 10/4/2017.
  */
 
-public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
+public class HomeFragmentPagerAdapter extends SmartFragmentStatePagerAdapter {
     final int PAGE_COUNT = 2;
     private String tabTitles[] = new String[] { "Home", "Mentions" };
     private Context context;

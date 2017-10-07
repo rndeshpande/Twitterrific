@@ -1,5 +1,6 @@
 package com.codepath.apps.twitter.activities;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +28,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -47,8 +49,16 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         initialize();
-        populateView();
-        setupUserTimeline();
+        if(getIntent() != null) {
+            Intent intent = getIntent();
+            String username = intent.getStringExtra("username");
+            populateViewForUser(username);
+        }
+        else {
+            populateViewLoggedInUser();
+        }
+
+
     }
 
     private void initialize() {
@@ -63,7 +73,8 @@ public class ProfileActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient();
     }
 
-    private void populateView() {
+    private void populateViewLoggedInUser() {
+        Log.d(TAG, "fetching profile for logged in user");
         if (NetworkUtils.isNetworkAvailable(this)) {
             client.getLoggedInUserInformation(new JsonHttpResponseHandler() {
                 @Override
@@ -76,6 +87,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                     mUser = user;
                     mBinding.setUser(mUser);
+                    setupUserTimeline(mUser);
                 }
 
                 @Override
@@ -102,12 +114,53 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void setupUserTimeline() {
+    private void populateViewForUser(String username) {
+        Log.d(TAG, "fetching profile for user: " + username);
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            client.getProfileByScreenName(username, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    User user = new User();
+                    try {
+                        user = User.fromJSON(response);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    mUser = user;
+                    mBinding.setUser(mUser);
+                    setupUserTimeline(user);
+                }
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray responseArray) {
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    throwable.printStackTrace();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                    throwable.printStackTrace();
+                }
+            });
+        } else {
+            CommonUtils.showMessage(mBinding.container, getString(R.string.network_not_available_message));
+        }
+    }
+
+    private void setupUserTimeline(User user) {
         Fragment fragment = null;
         Class fragmentClass;
 
         try {
-            fragment = UserTimelineFragment.newInstance(mUser);
+            fragment = UserTimelineFragment.newInstance(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
