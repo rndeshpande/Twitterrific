@@ -154,7 +154,7 @@ public class MentionsFragment extends Fragment {
                 }
             });
         else {
-            CommonUtils.showMessage(mBinding.getRoot(), "Unable to refresh data. No network connection available.");
+            CommonUtils.showMessage(mBinding.flContainer, "Unable to refresh data. No network connection available.");
             populateDataFromDb();
         }
     }

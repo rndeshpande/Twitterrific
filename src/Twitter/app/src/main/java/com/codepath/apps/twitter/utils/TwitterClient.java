@@ -152,7 +152,7 @@ public class TwitterClient extends OAuthBaseClient {
 			params.put("cursor", cursor);
         params.put("user_id", userId);
 		params.put("skip_status", true);
-        
+
 		client.get(apiUrl, params, handler);
 	}
 }

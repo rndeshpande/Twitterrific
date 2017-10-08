@@ -14,6 +14,7 @@
         tools:context="com.codepath.apps.twitter.activities.HomeActivity">
 
         <RelativeLayout
+            android:id="@+id/rlContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
