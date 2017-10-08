@@ -93,7 +93,7 @@ public class UserTimelineFragment extends Fragment {
 
     private void populateTimeline() {
         if (NetworkUtils.isNetworkAvailable(getActivity())) {
-            mClient.getUserTimeline(mMaxId - 1, new JsonHttpResponseHandler() {
+            mClient.getUserTimeline(mMaxId - 1,mUser.getUuid(), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 }

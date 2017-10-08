@@ -265,7 +265,6 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
     }
 
     private void updateHomeTimeline(Tweet tweet) {
-        Toast.makeText(this, "Updating Fragment", Toast.LENGTH_SHORT).show();
         TimelineFragment fragment = (TimelineFragment) mAdapter.getRegisteredFragment(0);
         fragment.addTweetToTop(tweet);
     }

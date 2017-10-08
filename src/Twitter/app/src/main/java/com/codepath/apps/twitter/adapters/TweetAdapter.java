@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.activities.DetailsActivity;
+import com.codepath.apps.twitter.activities.ProfileActivity;
 import com.codepath.apps.twitter.activities.TimelineActivity;
 import com.codepath.apps.twitter.databinding.ListTweetBinding;
 import com.codepath.apps.twitter.fragments.CreateDialogFragment;
@@ -92,6 +93,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             binding.tvFavorite.setOnClickListener(v-> {
                 favorite(binding.tvFavorite);
             });
+
+            binding.ivProfile.setOnClickListener(this::onProfileImageClick);
         }
 
         public void bind(Tweet tweet) {
@@ -197,6 +200,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     throwable.printStackTrace();
                 }
             });
+        }
+
+        public void onProfileImageClick(View view) {
+            Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+            intent.putExtra("username", binding.getTweet().getUser().getScreenName());
+            view.getContext().startActivity(intent);
         }
     }
 }

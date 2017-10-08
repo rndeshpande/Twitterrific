@@ -49,16 +49,13 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         initialize();
-        if(getIntent() != null) {
+        if (getIntent() != null) {
             Intent intent = getIntent();
             String username = intent.getStringExtra("username");
             populateViewForUser(username);
-        }
-        else {
+        } else {
             populateViewLoggedInUser();
         }
-
-
     }
 
     private void initialize() {
@@ -158,6 +155,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void setupUserTimeline(User user) {
         Fragment fragment = null;
         Class fragmentClass;
+        Log.d(TAG, "Getting timeline for : " + user.getName());
 
         try {
             fragment = UserTimelineFragment.newInstance(user);

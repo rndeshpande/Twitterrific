@@ -18,7 +18,6 @@ public class TweetHandler {
 
     public void showDetails(View view, Tweet tweet) {
         Context context = view.getContext();
-        Toast.makeText(context, "CLICKED", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(context, DetailsActivity.class);
         intent.putExtra("tweet_details", Parcels.wrap(tweet));
         context.startActivity(intent);

@@ -110,7 +110,6 @@ public class CustomBindingAdapter {
                         new PatternEditableBuilder.SpannableClickedListener() {
                             @Override
                             public void onSpanClicked(String text) {
-                                Toast.makeText(view.getContext(), text, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(view.getContext(), ProfileActivity.class);
                                 intent.putExtra("username", text.replace("@",""));
                                 view.getContext().startActivity(intent);
@@ -120,7 +119,7 @@ public class CustomBindingAdapter {
                         new PatternEditableBuilder.SpannableClickedListener() {
                             @Override
                             public void onSpanClicked(String text) {
-                                Toast.makeText(view.getContext(), text, Toast.LENGTH_SHORT).show();
+
                             }
                         })
                 .into(view);
