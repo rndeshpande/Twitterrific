@@ -35,7 +35,7 @@ public class TwitterClient extends OAuthBaseClient {
 	// See https://developer.chrome.com/multidevice/android/intents
 	public static final String REST_CALLBACK_URL_TEMPLATE = "intent://%s#Intent;action=android.intent.action.VIEW;scheme=%s;package=%s;S.browser_fallback_url=%s;end";
 
-	private static final int REQUEST_ITEM_COUNT = 10;
+	private static final int REQUEST_ITEM_COUNT = 20;
     private static final String TAG = "TwitterClient";
 
 	public TwitterClient(Context context) {
@@ -48,7 +48,6 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 
 	public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
-        Log.d(TAG, "getHomeTimeline " + maxId );
         String apiUrl = getApiUrl("statuses/home_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("format", "json");
@@ -59,7 +58,6 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 
 	public void getMentionsTimeline(long maxId, AsyncHttpResponseHandler handler) {
-        Log.d(TAG, "getMentionsTimeline " + maxId);
 		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("format", "json");
@@ -70,7 +68,6 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 
     public void getUserTimeline(long maxId, long userId, AsyncHttpResponseHandler handler) {
-        Log.d(TAG, "getUserTimeline " + maxId);
         String apiUrl = getApiUrl("statuses/user_timeline.json");
         RequestParams params = new RequestParams();
         params.put("format", "json");
@@ -126,4 +123,16 @@ public class TwitterClient extends OAuthBaseClient {
         RequestParams params = new RequestParams();
         client.get(apiUrl, params, handler);
     }
+
+    public void getTweetsByText(String searchText, String nextResults, AsyncHttpResponseHandler handler) {
+        String  apiUrl = getApiUrl("search/tweets.json");
+        RequestParams params = new RequestParams();
+        if(nextResults != null &&  !nextResults.isEmpty())
+            apiUrl += nextResults;
+        else
+            params.put("q", searchText);
+        params.put("count", REQUEST_ITEM_COUNT);
+        client.get(apiUrl, params, handler);
+    }
+
 }

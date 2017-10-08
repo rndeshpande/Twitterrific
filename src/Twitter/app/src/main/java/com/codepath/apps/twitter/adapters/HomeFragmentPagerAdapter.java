@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.codepath.apps.twitter.fragments.MentionsFragment;
+import com.codepath.apps.twitter.fragments.SearchFragment;
 import com.codepath.apps.twitter.fragments.TimelineFragment;
 
 /**
@@ -13,8 +14,8 @@ import com.codepath.apps.twitter.fragments.TimelineFragment;
  */
 
 public class HomeFragmentPagerAdapter extends SmartFragmentStatePagerAdapter {
-    final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] { "Home", "Mentions" };
+    final int PAGE_COUNT = 3;
+    private String tabTitles[] = new String[] { "Home", "Mentions", "Search" };
     private Context context;
 
     public HomeFragmentPagerAdapter(FragmentManager fm, Context context) {
@@ -35,14 +36,17 @@ public class HomeFragmentPagerAdapter extends SmartFragmentStatePagerAdapter {
                 return TimelineFragment.newInstance(position + 1);
             case 1:
                 return MentionsFragment.newInstance(position + 1);
+            case 2:
+                return SearchFragment.newInstance(position + 1);
             default:
                 return null;
         }
     }
 
+
     @Override
     public CharSequence getPageTitle(int position) {
-        // Generate title based on item position
         return tabTitles[position];
     }
+
 }

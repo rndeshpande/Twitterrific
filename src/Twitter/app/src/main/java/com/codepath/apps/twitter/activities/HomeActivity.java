@@ -3,6 +3,7 @@ package com.codepath.apps.twitter.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.adapters.HomeFragmentPagerAdapter;
 import com.codepath.apps.twitter.fragments.CreateDialogFragment;
+import com.codepath.apps.twitter.fragments.SearchFragment;
 import com.codepath.apps.twitter.fragments.TimelineFragment;
 import com.codepath.apps.twitter.models.Tweet;
 import com.codepath.apps.twitter.models.TweetRequest;
@@ -29,6 +31,7 @@ import com.codepath.apps.twitter.utils.CommonUtils;
 import com.codepath.apps.twitter.utils.TwitterApp;
 import com.codepath.apps.twitter.utils.TwitterClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.twitter.sdk.android.core.models.Search;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +54,7 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
     private NavigationView nvDrawer;
     ViewPager mViewPager;
     HomeFragmentPagerAdapter mAdapter;
+    CoordinatorLayout clMain;
 
     private static final String TAG = "TwitterClient";
 
@@ -205,6 +209,12 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
 
             }
         });
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_blue);
+        tabLayout.getTabAt(0).setText("");
+
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_comments1600);
+        tabLayout.getTabAt(1).setText("");
     }
 
 
@@ -224,9 +234,9 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
 
     @Override
     public void onFragmentInteraction(TweetRequest tweetRequest) {
-        //Toast.makeText(this, tweetRequest.getStatus(), Toast.LENGTH_SHORT).show();
         postTweet(tweetRequest);
-        //CommonUtils.showMessage(mBinding.clMain, getString(R.string.tweet_posted));
+        clMain = (CoordinatorLayout) findViewById(R.id.clMain);
+        CommonUtils.showMessage(clMain , getString(R.string.tweet_posted));
     }
 
     // TODO : move this to a separate class
@@ -267,5 +277,10 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
     private void updateHomeTimeline(Tweet tweet) {
         TimelineFragment fragment = (TimelineFragment) mAdapter.getRegisteredFragment(0);
         fragment.addTweetToTop(tweet);
+    }
+
+    private void updateSearchTimeline(String text) {
+        SearchFragment fragment = (SearchFragment) mAdapter.getRegisteredFragment(2);
+        fragment.setSearchText(text);
     }
 }

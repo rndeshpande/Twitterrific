@@ -74,6 +74,7 @@ public class CreateDialogFragment extends DialogFragment {
             binding.setTweet(tweetRequest);
             inReplyToStatusId = tweetRequest.getInReplyToStatusId();
             inReplyToScreenName = tweetRequest.getInReplyToScreenName();
+
         }
 
         setSubmitBehavior();
@@ -114,6 +115,7 @@ public class CreateDialogFragment extends DialogFragment {
                 int length = s.length();
                 String remainingChars = Integer.toString(CHARACTER_LIMIT - length);
                 tvCharCount.setText(remainingChars);
+                etStatus.setSelection(etStatus.getText().length());
             }
         });
     }
