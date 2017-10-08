@@ -21,6 +21,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -168,6 +169,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
         Intent intent = new Intent(this, FollowActivity.class);
         intent.putExtra("type", type);
+        intent.putExtra("user", Parcels.wrap(mUser));
         startActivity(intent);
     }
 }

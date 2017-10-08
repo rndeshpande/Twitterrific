@@ -32,6 +32,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,8 @@ public class FollowActivity extends AppCompatActivity {
     private FrameLayout flMain;
     private ActivityFollowBinding mBinding;
     private String mType = "";
-    private int mCursor = -1;
+    private long mCursor = -1;
+    private User mUser;
     private TwitterClient mClient;
     private ArrayList<User> mUsers;
     private UserAdapter mAdapter;
@@ -68,6 +70,7 @@ public class FollowActivity extends AppCompatActivity {
 
     private void initialize() {
         mType = getIntent().getStringExtra("type");
+        mUser = Parcels.unwrap(getIntent().getParcelableExtra("user"));
         mClient = TwitterApp.getRestClient();
         setupToolbar();
 
@@ -131,7 +134,8 @@ public class FollowActivity extends AppCompatActivity {
 
     public void populateFollowingList() {
         if (NetworkUtils.isNetworkAvailable(this)) {
-            mClient.getFriendsList(mCursor,new JsonHttpResponseHandler() {
+
+            mClient.getFriendsList(mUser.getUuid(), mCursor,new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     UserFollowRequest userFollowRequest = new UserFollowRequest();
@@ -173,7 +177,7 @@ public class FollowActivity extends AppCompatActivity {
 
     public void populateFollowerList() {
         if (NetworkUtils.isNetworkAvailable(this)) {
-            mClient.getFollowerList(mCursor,new JsonHttpResponseHandler() {
+            mClient.getFollowerList(mUser.getUuid(),mCursor,new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     UserFollowRequest userFollowRequest = new UserFollowRequest();

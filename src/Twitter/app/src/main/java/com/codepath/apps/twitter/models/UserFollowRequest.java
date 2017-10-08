@@ -23,14 +23,14 @@ public class UserFollowRequest {
 
     public ArrayList<User> users;
 
-    public int nextCursor;
+    public long nextCursor;
 
-    public int previousCursor;
+    public long previousCursor;
 
     public static UserFollowRequest fromJSON(JSONObject jsonObject) throws JSONException {
         UserFollowRequest userFollowRequest = new UserFollowRequest();
-        userFollowRequest.nextCursor = jsonObject.getInt("next_cursor");
-        userFollowRequest.previousCursor = jsonObject.getInt("previous_cursor");
+        userFollowRequest.nextCursor = jsonObject.getLong("next_cursor");
+        userFollowRequest.previousCursor = jsonObject.getLong("previous_cursor");
 
         userFollowRequest.users = new ArrayList<>();
         JSONArray jsonArray = jsonObject.getJSONArray("users");
