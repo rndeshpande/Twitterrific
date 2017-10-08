@@ -37,6 +37,13 @@
         </activity>
         <activity android:name=".activities.TimelineActivity">
             <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.DetailsActivity" />
+        <activity android:name=".activities.HomeActivity" >
+            <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -45,11 +52,9 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DetailsActivity" />
-        <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.SearchActivity" />
-        <activity android:name=".activities.FollowActivity"></activity>
+        <activity android:name=".activities.FollowActivity" />
     </application>
 
 </manifest>
