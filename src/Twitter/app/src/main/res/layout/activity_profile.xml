@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTagline"
-                android:text='@{String.valueOf(user.friendsCount) + " Following"}' />
+                app:textNumberHighlight='@{String.valueOf(user.friendsCount) + " Following"}' />
 
             <TextView
                 android:id="@+id/tvFollowerCount"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTagline"
                 android:layout_toEndOf="@id/tvFollowingCount"
-                android:text='@{String.valueOf(user.followersCount) + " Followers"}' />
+                app:textNumberHighlight='@{String.valueOf(user.followersCount) + " Followers"}' />
 
             <ImageView
                 android:id="@+id/cardEnd"

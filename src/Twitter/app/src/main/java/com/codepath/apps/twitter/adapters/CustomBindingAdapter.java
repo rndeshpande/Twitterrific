@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.activities.ProfileActivity;
+import com.codepath.apps.twitter.activities.SearchActivity;
 import com.codepath.apps.twitter.utils.CommonUtils;
 import com.codepath.apps.twitter.utils.PatternEditableBuilder;
 
@@ -114,13 +115,24 @@ public class CustomBindingAdapter {
                                 view.getContext().startActivity(intent);
                             }
                         }).
-                addPattern(Pattern.compile("\\#(\\w+)"), Color.GREEN,
+                addPattern(Pattern.compile("\\#(\\w+)"), Color.RED,
                         new PatternEditableBuilder.SpannableClickedListener() {
                             @Override
                             public void onSpanClicked(String text) {
-
+                                Intent intent = new Intent(view.getContext(), SearchActivity.class);
+                                intent.putExtra("query", text);
+                                view.getContext().startActivity(intent);
                             }
                         })
+                .into(view);
+    }
+
+
+    @BindingAdapter({"bind:textNumberHighlight"})
+    public static void getTextNumberHighlight(TextView view, String originalText) {
+        view.setText(originalText);
+        new PatternEditableBuilder().
+                addPattern(Pattern.compile("\\d+"), Color.BLACK)
                 .into(view);
     }
 }

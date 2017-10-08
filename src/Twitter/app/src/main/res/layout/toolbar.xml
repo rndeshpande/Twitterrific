@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/toolbar_border" >
+        android:background="@drawable/toolbar_border">
 
-        <EditText
-            android:id="@+id/etSearch"
-            android:hint="Search Twitter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:inputType="text"
-            android:visibility="gone"
-            style="@style/ToolbarSearch"
-            android:imeOptions="actionSearch"/>
+            <EditText
+                android:id="@+id/etSearch"
+                style="@style/ToolbarSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search Twitter"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:visibility="gone"
+                />
 
     </android.support.v7.widget.Toolbar>
 

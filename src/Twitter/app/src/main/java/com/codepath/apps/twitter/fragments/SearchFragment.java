@@ -35,6 +35,7 @@ import cz.msebera.android.httpclient.Header;
 public class SearchFragment extends Fragment {
 
     public static final String ARG_PAGE = "ARG_PAGE";
+    public static final String ARG_QUERY = "query";
     private static final String TAG = "TwitterClient";
     private static final String DEFAULT_SEARCH = "latest";
 
@@ -67,11 +68,20 @@ public class SearchFragment extends Fragment {
         return fragment;
     }
 
+    public static SearchFragment newInstance(String query) {
+        SearchFragment fragment = new SearchFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_QUERY, query);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mPage = getArguments().getInt(ARG_PAGE);
+            mSearchText = getArguments().getString(ARG_QUERY);
         }
     }
 
@@ -118,7 +128,7 @@ public class SearchFragment extends Fragment {
 
     private void populateTimeline() {
         if (NetworkUtils.isNetworkAvailable(getActivity())) {
-            String query = mSearchText.isEmpty() ? DEFAULT_SEARCH : mSearchText;
+            String query = mSearchText == null || mSearchText.isEmpty() ? DEFAULT_SEARCH : mSearchText;
             client.getTweetsByText(query, nextResults, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -173,12 +183,15 @@ public class SearchFragment extends Fragment {
     }
 
     private void resetSearch() {
-        mTweets.clear();
-        mAdapter.notifyDataSetChanged();
+        if(mTweets != null) {
+            mTweets.clear();
+            mAdapter.notifyDataSetChanged();
+            DataProvider provider = new DataProvider();
+            provider.deleteAll();
+        }
+
         mMaxId = 0;
         nextResults = "";
-        DataProvider provider = new DataProvider();
-        provider.deleteAll();
     }
 
     private void populateDataFromDb() {
