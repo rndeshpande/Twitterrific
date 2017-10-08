@@ -104,7 +104,6 @@ public class CustomBindingAdapter {
     @BindingAdapter({"bind:textClickableSpan"})
     public static void getTextClickableSpan(TextView view, String originalText) {
         view.setText(originalText);
-        Log.d("TwitterClient", originalText);
         new PatternEditableBuilder().
                 addPattern(Pattern.compile("\\@(\\w+)"), Color.BLUE,
                         new PatternEditableBuilder.SpannableClickedListener() {

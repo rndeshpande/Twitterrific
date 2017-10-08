@@ -3,6 +3,7 @@ package com.codepath.apps.twitter.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.codepath.apps.twitter.databinding.FragmentUserTimelineBinding;
 import com.codepath.apps.twitter.listeners.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.twitter.models.Tweet;
 import com.codepath.apps.twitter.models.User;
+import com.codepath.apps.twitter.providers.DataProvider;
 import com.codepath.apps.twitter.utils.CommonUtils;
 import com.codepath.apps.twitter.utils.NetworkUtils;
 import com.codepath.apps.twitter.utils.TwitterApp;
@@ -31,6 +33,8 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.codepath.apps.twitter.R.id.swipeContainer;
+
 /**
  * Created by rdeshpan on 10/5/2017.
  */
@@ -43,6 +47,7 @@ public class UserTimelineFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView rvTweets;
     private FragmentUserTimelineBinding mBinding;
+    SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
     long mMaxId = 0;
     private User mUser;
@@ -89,6 +94,32 @@ public class UserTimelineFragment extends Fragment {
         rvTweets.setLayoutManager(mLayoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         rvTweets.addItemDecoration(dividerItemDecoration);
+
+        scrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                populateTimeline();
+            }
+        };
+        rvTweets.addOnScrollListener(scrollListener);
+
+        swipeContainer = mBinding.swipeContainer;
+        swipeContainer.setOnRefreshListener(() -> {
+            resetSearch();
+            populateTimeline();
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
+    private void resetSearch() {
+        mTweets.clear();
+        mAdapter.notifyDataSetChanged();
+        mMaxId = 0;
+        DataProvider provider = new DataProvider();
+        provider.deleteAll();
     }
 
     private void populateTimeline() {
@@ -114,33 +145,33 @@ public class UserTimelineFragment extends Fragment {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    //swipeContainer.setRefreshing(false);
+                    swipeContainer.setRefreshing(false);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                    //swipeContainer.setRefreshing(false);
+                    swipeContainer.setRefreshing(false);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                    //swipeContainer.setRefreshing(false);
+                    swipeContainer.setRefreshing(false);
                     throwable.printStackTrace();
                 }
             });
         } else {
             // TODO : Enable this code or refactor
-            //CommonUtils.showMessage(mBinding.clMain, "Unable to refresh data. No network connection available.");
-            //populateDataFromDb();
+            CommonUtils.showMessage(mBinding.getRoot(), "Unable to refresh data. No network connection available.");
+            populateDataFromDb();
         }
     }
 
     private void refreshDataAndUI(Tweet tweet) {
         mTweets.add(tweet);
         mAdapter.notifyItemInserted(mTweets.size() - 1);
-        //swipeContainer.setRefreshing(false);
+        swipeContainer.setRefreshing(false);
         setMaxId(tweet.uuid);
         updateDatabase(tweet);
     }
@@ -155,5 +186,12 @@ public class UserTimelineFragment extends Fragment {
             mMaxId = maxId;
         else
             mMaxId = maxId < mMaxId ? maxId : mMaxId;
+    }
+
+    private void populateDataFromDb() {
+        DataProvider provider = new DataProvider();
+        ArrayList<Tweet> tweets = provider.readTweets();
+
+        tweets.forEach(this::refreshDataAndUI);
     }
 }

@@ -71,7 +71,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void populateViewLoggedInUser() {
-        Log.d(TAG, "fetching profile for logged in user");
         if (NetworkUtils.isNetworkAvailable(this)) {
             client.getLoggedInUserInformation(new JsonHttpResponseHandler() {
                 @Override
@@ -112,7 +111,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void populateViewForUser(String username) {
-        Log.d(TAG, "fetching profile for user: " + username);
         if (NetworkUtils.isNetworkAvailable(this)) {
             client.getProfileByScreenName(username, new JsonHttpResponseHandler() {
                 @Override
@@ -155,7 +153,6 @@ public class ProfileActivity extends AppCompatActivity {
     private void setupUserTimeline(User user) {
         Fragment fragment = null;
         Class fragmentClass;
-        Log.d(TAG, "Getting timeline for : " + user.getName());
 
         try {
             fragment = UserTimelineFragment.newInstance(user);
