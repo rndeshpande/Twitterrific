@@ -10,6 +10,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.adapters.TweetAdapter;
@@ -49,13 +50,12 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         initialize();
-        if (getIntent() != null) {
-            Intent intent = getIntent();
-            String username = intent.getStringExtra("username");
+        String username = getIntent().getStringExtra("username");
+
+        if (username != null && !username.isEmpty())
             populateViewForUser(username);
-        } else {
+        else
             populateViewLoggedInUser();
-        }
     }
 
     private void initialize() {

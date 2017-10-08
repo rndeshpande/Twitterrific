@@ -161,4 +161,18 @@
     </style>
 
     <!-- User Profile Styles End -->
+
+    <!-- Toolbar Styles Start -->
+    <style name="ToolbarSearch">
+        <item name="android:background">@drawable/toolbar_search</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+    <!-- Toolbar Style End -->
+
+    <style name="NavDrawerTextStyle" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAlignment">center</item>'
+        <item name="android:layout_alignParentTop">true</item>
+    </style>
 </resources>

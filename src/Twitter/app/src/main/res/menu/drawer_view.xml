@@ -4,12 +4,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_user_profile"
+            android:icon="@drawable/ic_person_outline_black_24dp"
             android:title="@string/menu_item_profile" />
 
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_user_profile"
+            android:icon="@drawable/ic_person_outline_black_24dp"
             android:title="@string/logout" />
     </group>
 </menu>

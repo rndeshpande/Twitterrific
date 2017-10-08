@@ -17,6 +17,7 @@
             android:maxLines="1"
             android:inputType="text"
             android:visibility="gone"
+            style="@style/ToolbarSearch"
             android:imeOptions="actionSearch"/>
 
     </android.support.v7.widget.Toolbar>

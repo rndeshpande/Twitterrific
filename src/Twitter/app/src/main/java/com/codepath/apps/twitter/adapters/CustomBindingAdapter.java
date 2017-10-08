@@ -32,7 +32,7 @@ public class CustomBindingAdapter {
                 .apply(new RequestOptions()
                         .override(125, 125)
                         .circleCrop()
-                        .placeholder(R.drawable.ic_launcher))
+                        .placeholder(R.drawable.image_placeholder))
                 .into(view);
     }
 
@@ -44,7 +44,7 @@ public class CustomBindingAdapter {
             Glide.with(view.getContext())
                     .load(imageUrl)
                     .apply(new RequestOptions()
-                            .placeholder(R.drawable.ic_launcher))
+                            .placeholder(R.drawable.image_placeholder))
                     .into(view);
         }
     }
@@ -58,7 +58,7 @@ public class CustomBindingAdapter {
                     .load(imageUrl)
                     .apply(new RequestOptions()
                             .circleCrop()
-                            .placeholder(R.drawable.ic_launcher))
+                            .placeholder(R.drawable.image_placeholder))
                     .into(view);
         }
     }
@@ -72,7 +72,7 @@ public class CustomBindingAdapter {
                     .load(imageUrl)
                     .apply(new RequestOptions()
                             .circleCrop()
-                            .placeholder(R.drawable.ic_launcher))
+                            .placeholder(R.drawable.image_placeholder))
                     .into(view);
         }
     }
@@ -84,7 +84,7 @@ public class CustomBindingAdapter {
                 .load(imageUrl)
                 .apply(new RequestOptions()
                         .centerCrop()
-                        .placeholder(R.drawable.ic_launcher))
+                        .placeholder(R.drawable.image_placeholder))
                 .into(view);
     }
 

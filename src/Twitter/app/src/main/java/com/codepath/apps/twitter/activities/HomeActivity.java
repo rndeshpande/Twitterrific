@@ -63,6 +63,7 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
     private Toolbar toolbar;
     private NavigationView nvDrawer;
     private EditText etSearch;
+    private TabLayout tabLayout;
     ViewPager mViewPager;
     HomeFragmentPagerAdapter mAdapter;
     CoordinatorLayout clMain;
@@ -217,15 +218,19 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
         mAdapter = new HomeFragmentPagerAdapter(getSupportFragmentManager(), HomeActivity.this);
         mViewPager.setAdapter(mAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
         setTitle(mViewPager.getAdapter().getPageTitle(tabLayout.getSelectedTabPosition()));
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 setTitle(mViewPager.getAdapter().getPageTitle(tab.getPosition()));
-                if(tab.getPosition() == 2)
+                if(tab.getPosition() == 2) {
                     etSearch.setVisibility(View.VISIBLE);
+                    etSearch.requestFocus();
+                }
                 else
                     etSearch.setVisibility(View.GONE);
             }
@@ -240,12 +245,18 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
 
             }
         });
+        setupTabStyle();
+    }
 
+    private void setupTabStyle() {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_blue);
         tabLayout.getTabAt(0).setText("");
 
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_comments1600);
         tabLayout.getTabAt(1).setText("");
+
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_search_white);
+        tabLayout.getTabAt(2).setText("");
     }
 
 
