@@ -16,7 +16,12 @@ public class SearchMetadata {
     public static SearchMetadata fromJSON(JSONObject jsonObject) throws JSONException {
         SearchMetadata searchMetadata = new SearchMetadata();
         searchMetadata.maxId = jsonObject.getLong("max_id");
-        searchMetadata.nextResults = jsonObject.getString("next_results");
+        try {
+            searchMetadata.nextResults = jsonObject.getString("next_results");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return searchMetadata;
     }
 }

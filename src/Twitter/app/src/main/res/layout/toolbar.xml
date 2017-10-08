@@ -9,6 +9,16 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/toolbar_border" >
 
+        <EditText
+            android:id="@+id/etSearch"
+            android:hint="Search Twitter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"
+            android:visibility="gone"
+            android:imeOptions="actionSearch"/>
+
     </android.support.v7.widget.Toolbar>
 
 </LinearLayout>

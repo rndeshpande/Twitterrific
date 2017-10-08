@@ -9,15 +9,24 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.twitter.R;
@@ -37,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
+import org.w3c.dom.Text;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -52,6 +62,7 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
+    private EditText etSearch;
     ViewPager mViewPager;
     HomeFragmentPagerAdapter mAdapter;
     CoordinatorLayout clMain;
@@ -64,8 +75,8 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        setupTabs();
         setToolbar();
+        setupTabs();
         setupStyle();
         setupDrawer();
         initialize();
@@ -140,6 +151,14 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        etSearch = (EditText) findViewById(R.id.etSearch);
+        etSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                updateSearchTimeline(v.getText().toString());
+                return true;
+            }
+            return false;
+        });
     }
 
     private void setupStyle() {
@@ -157,6 +176,14 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void logout() {
@@ -196,7 +223,11 @@ public class HomeActivity extends AppCompatActivity  implements CreateDialogFrag
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                setTitle(mViewPager.getAdapter().getPageTitle(tabLayout.getSelectedTabPosition()));
+                setTitle(mViewPager.getAdapter().getPageTitle(tab.getPosition()));
+                if(tab.getPosition() == 2)
+                    etSearch.setVisibility(View.VISIBLE);
+                else
+                    etSearch.setVisibility(View.GONE);
             }
 
             @Override
