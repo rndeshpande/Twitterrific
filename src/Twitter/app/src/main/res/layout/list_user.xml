@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.codepath.apps.twitter.models.User" />
+
+    </data>
+
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/Tweet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:imageUrl='@{user.profileImageUrl}' />
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/ivProfile"
+            android:drawableEnd='@{user.verified ? @drawable/ic_check_mark : null}'
+            android:hint="Name"
+            android:text="@{user.name + ' '}" />
+
+        <TextView
+            android:id="@+id/tvScreenName"
+            style="@style/ScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_toEndOf="@+id/ivProfile"
+            android:text='@{"@"+ user.screenName}' />
+
+        <TextView
+            android:id="@+id/tvTagline"
+            style="@style/ProfileDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvScreenName"
+            android:layout_toEndOf="@+id/ivProfile"
+            android:text="@{user.description}" />
+    </RelativeLayout>
+</layout>

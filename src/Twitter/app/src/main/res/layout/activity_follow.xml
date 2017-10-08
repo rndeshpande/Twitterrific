@@ -8,15 +8,22 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
-        tools:context="com.codepath.apps.twitter.activities.SearchActivity">
+        tools:context="com.codepath.apps.twitter.activities.FollowActivity">
 
         <include layout="@layout/toolbar" />
 
-        <FrameLayout
-            android:id="@+id/flMain"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </FrameLayout>
+            android:layout_height="match_parent"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvUsers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 </layout>

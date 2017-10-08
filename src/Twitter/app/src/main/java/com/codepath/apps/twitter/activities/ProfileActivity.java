@@ -6,19 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import com.codepath.apps.twitter.R;
-import com.codepath.apps.twitter.adapters.TweetAdapter;
 import com.codepath.apps.twitter.databinding.ActivityProfileBinding;
 import com.codepath.apps.twitter.fragments.UserTimelineFragment;
-import com.codepath.apps.twitter.listeners.EndlessRecyclerViewScrollListener;
-import com.codepath.apps.twitter.models.Tweet;
-import com.codepath.apps.twitter.models.TweetExtended;
 import com.codepath.apps.twitter.models.User;
 import com.codepath.apps.twitter.utils.CommonUtils;
 import com.codepath.apps.twitter.utils.NetworkUtils;
@@ -29,9 +21,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcels;
-
-import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -43,6 +32,8 @@ public class ProfileActivity extends AppCompatActivity {
     private User mUser;
 
     private static final String TAG = "TwitterClient";
+    private static final String FOLLOWING = "Following";
+    private static final String FOLLOWER = "Followers";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,5 +152,22 @@ public class ProfileActivity extends AppCompatActivity {
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flTimeline, fragment).commit();
+    }
+
+    public void onFollowCountClick(View view) {
+        String type = "";
+        switch (view.getId()) {
+            case R.id.tvFollowerCount:
+                type = FOLLOWER;
+                break;
+            case R.id.tvFollowingCount:
+                type = FOLLOWING;
+                break;
+            default:
+                break;
+        }
+        Intent intent = new Intent(this, FollowActivity.class);
+        intent.putExtra("type", type);
+        startActivity(intent);
     }
 }

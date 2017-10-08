@@ -41,7 +41,6 @@ public class MentionsFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     private static final String TAG = "TwitterClient";
 
-
     private TwitterClient client;
     private ArrayList<Tweet> mTweets;
     private TweetAdapter mAdapter;

@@ -8,6 +8,8 @@
 
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.codepath.apps.twitter.activities.ProfileActivity"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical">
@@ -77,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTagline"
+                android:onClick="onFollowCountClick"
                 app:textNumberHighlight='@{String.valueOf(user.friendsCount) + " Following"}' />
 
             <TextView
@@ -86,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTagline"
                 android:layout_toEndOf="@id/tvFollowingCount"
+                android:onClick="onFollowCountClick"
                 app:textNumberHighlight='@{String.valueOf(user.followersCount) + " Followers"}' />
 
             <ImageView

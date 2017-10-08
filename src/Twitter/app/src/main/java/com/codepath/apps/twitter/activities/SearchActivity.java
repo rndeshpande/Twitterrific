@@ -18,7 +18,6 @@ public class SearchActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FrameLayout flMain;
     private ActivitySearchBinding mBinding;
-    private ImageView ivBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +52,5 @@ public class SearchActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flMain, searchFragment).commit();
         setTitle(query);
-    }
-
-    public void onBack() {
-        finish();
     }
 }
