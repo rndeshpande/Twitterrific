@@ -1,5 +1,6 @@
 package com.codepath.apps.twitter.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class FollowActivity extends AppCompatActivity {
 
@@ -65,6 +68,11 @@ public class FollowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_follow);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Helvetica Neu Bold.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
         initialize();
     }
 
@@ -226,5 +234,10 @@ public class FollowActivity extends AppCompatActivity {
         mUsers.clear();
         mAdapter.notifyDataSetChanged();
         mCursor = -1;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

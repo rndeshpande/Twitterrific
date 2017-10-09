@@ -1,5 +1,6 @@
 package com.codepath.apps.twitter.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.databinding.ActivityProfileBinding;
@@ -25,12 +27,14 @@ import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private TwitterClient client;
     private ActivityProfileBinding mBinding;
     private User mUser;
+    private ProgressBar pbLoading;
 
     private static final String TAG = "TwitterClient";
     private static final String FOLLOWING = "Following";
@@ -52,6 +56,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initialize() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile);
+        pbLoading = mBinding.pbLoading;
+        pbLoading.setVisibility(ProgressBar.VISIBLE);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Helvetica Neu Bold.ttf")
@@ -67,6 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
             client.getLoggedInUserInformation(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
                     User user = new User();
                     try {
                         user = User.fromJSON(response);
@@ -76,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
                     mUser = user;
                     mBinding.setUser(mUser);
                     setupUserTimeline(mUser);
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 }
 
                 @Override
@@ -84,21 +92,25 @@ public class ProfileActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
             });
         } else {
             CommonUtils.showMessage(mBinding.container, getString(R.string.network_not_available_message));
+            pbLoading.setVisibility(ProgressBar.INVISIBLE);
         }
     }
 
@@ -107,6 +119,7 @@ public class ProfileActivity extends AppCompatActivity {
             client.getProfileByScreenName(username, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
                     User user = new User();
                     try {
                         user = User.fromJSON(response);
@@ -116,6 +129,7 @@ public class ProfileActivity extends AppCompatActivity {
                     mUser = user;
                     mBinding.setUser(mUser);
                     setupUserTimeline(user);
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 }
 
                 @Override
@@ -124,21 +138,25 @@ public class ProfileActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
             });
         } else {
             CommonUtils.showMessage(mBinding.container, getString(R.string.network_not_available_message));
+            pbLoading.setVisibility(ProgressBar.INVISIBLE);
         }
     }
 
@@ -171,5 +189,10 @@ public class ProfileActivity extends AppCompatActivity {
         intent.putExtra("type", type);
         intent.putExtra("user", Parcels.wrap(mUser));
         startActivity(intent);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

@@ -1,10 +1,12 @@
 package com.codepath.apps.twitter.activities;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,6 +33,7 @@ import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DetailsActivity extends AppCompatActivity implements CreateDialogFragment.OnFragmentInteractionListener{
 
@@ -41,6 +44,7 @@ public class DetailsActivity extends AppCompatActivity implements CreateDialogFr
     ImageView ivMediaImage;
     ImageView ivBack;
     private TwitterClient client;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,20 @@ public class DetailsActivity extends AppCompatActivity implements CreateDialogFr
                 .build()
         );
         client = TwitterApp.getRestClient();
+        setupToolbar();
+    }
+
+    private void setupToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Details");
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public void onBack(View view) {
@@ -258,5 +276,10 @@ public class DetailsActivity extends AppCompatActivity implements CreateDialogFr
                 throwable.printStackTrace();
             }
         });
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

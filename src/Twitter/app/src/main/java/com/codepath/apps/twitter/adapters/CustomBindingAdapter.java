@@ -3,6 +3,7 @@ package com.codepath.apps.twitter.adapters;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.graphics.Color;
+import android.text.Html;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -130,9 +131,7 @@ public class CustomBindingAdapter {
 
     @BindingAdapter({"bind:textNumberHighlight"})
     public static void getTextNumberHighlight(TextView view, String originalText) {
-        view.setText(originalText);
-        new PatternEditableBuilder().
-                addPattern(Pattern.compile("\\d+"), Color.BLACK)
-                .into(view);
+        String formattedText = originalText.replaceAll("\\d+", "<font color=#000000><b>$0</b></font>");
+        view.setText(Html.fromHtml(formattedText, 0));
     }
 }

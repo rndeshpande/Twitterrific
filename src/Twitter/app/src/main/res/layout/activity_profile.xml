@@ -48,6 +48,14 @@
             android:fitsSystemWindows="true"
             tools:context="com.codepath.apps.twitter.activities.ProfileActivity">
 
+            <ProgressBar
+                android:id="@+id/pbLoading"
+                style="@style/ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="invisible" />
+
             <TextView
                 android:id="@+id/tvName"
                 style="@style/ProfileUsername"
@@ -95,7 +103,7 @@
             <ImageView
                 android:id="@+id/cardEnd"
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="7dp"
                 android:layout_below="@id/tvFollowerCount"
                 android:src ="@drawable/card_end"/>
             
@@ -104,7 +112,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cardEnd">
-
             </FrameLayout>
 
         </RelativeLayout>

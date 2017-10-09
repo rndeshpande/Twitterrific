@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.codepath.apps.twitter.R;
 import com.codepath.apps.twitter.adapters.TweetAdapter;
@@ -48,6 +49,7 @@ public class TimelineFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView rvTweets;
     private FragmentTimelineBinding mBinding;
+    private ProgressBar pbLoading;
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
     long mMaxId = 0;
@@ -85,6 +87,8 @@ public class TimelineFragment extends Fragment {
 
         client = TwitterApp.getRestClient();
         rvTweets = mBinding.rvTweet;
+        pbLoading = mBinding.pbLoading;
+        pbLoading.setVisibility(ProgressBar.VISIBLE);
         mTweets = new ArrayList<>();
 
         mAdapter = new TweetAdapter(getContext(), client, mTweets, getFragmentManager());
@@ -97,6 +101,7 @@ public class TimelineFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                pbLoading.setVisibility(ProgressBar.VISIBLE);
                 populateTimeline();
             }
         };
@@ -104,6 +109,7 @@ public class TimelineFragment extends Fragment {
 
         swipeContainer = mBinding.swipeContainer;
         swipeContainer.setOnRefreshListener(() -> {
+            pbLoading.setVisibility(ProgressBar.INVISIBLE);
             resetSearch();
             populateTimeline();
         });
@@ -123,6 +129,7 @@ public class TimelineFragment extends Fragment {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray responseArray) {
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     for (int i = 0; i < responseArray.length(); i++) {
                         Tweet tweet = null;
                         try {
@@ -137,18 +144,21 @@ public class TimelineFragment extends Fragment {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     swipeContainer.setRefreshing(false);
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     swipeContainer.setRefreshing(false);
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                     swipeContainer.setRefreshing(false);
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
             });

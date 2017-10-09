@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.codepath.apps.twitter.adapters.TweetAdapter;
 import com.codepath.apps.twitter.databinding.FragmentSearchBinding;
@@ -46,6 +47,7 @@ public class SearchFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView rvTweets;
     private FragmentSearchBinding mBinding;
+    private ProgressBar pbLoading;
 
     SwipeRefreshLayout swipeContainer;
     EndlessRecyclerViewScrollListener scrollListener;
@@ -96,6 +98,8 @@ public class SearchFragment extends Fragment {
 
     private void initialize() {
         client = TwitterApp.getRestClient();
+        pbLoading = mBinding.pbLoading;
+        pbLoading.setVisibility(ProgressBar.VISIBLE);
         rvTweets = mBinding.rvTweets;
         mTweets = new ArrayList<>();
 
@@ -109,6 +113,7 @@ public class SearchFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 populateTimeline();
             }
         };
@@ -139,6 +144,7 @@ public class SearchFragment extends Fragment {
                             refreshDataAndUI(tweet);
 
                         nextResults = tweetSearchResponse.getMetadata().nextResults;
+                        pbLoading.setVisibility(ProgressBar.INVISIBLE);
 
                     } catch (JSONException e) {
                         swipeContainer.setRefreshing(false);
@@ -153,23 +159,27 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     swipeContainer.setRefreshing(false);
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     swipeContainer.setRefreshing(false);
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                     swipeContainer.setRefreshing(false);
+                    pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     throwable.printStackTrace();
                 }
             });
         } else {
             CommonUtils.showMessage(mBinding.flContainer , "Unable to refresh data. No network connection available.");
+            pbLoading.setVisibility(ProgressBar.INVISIBLE);
             populateDataFromDb();
         }
     }
@@ -216,6 +226,7 @@ public class SearchFragment extends Fragment {
     }
 
     public void setSearchText(String text) {
+        pbLoading.setVisibility(ProgressBar.VISIBLE);
         mSearchText = text;
         resetSearch();
         populateTimeline();
